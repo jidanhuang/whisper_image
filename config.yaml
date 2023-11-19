@@ -1,0 +1,51 @@
+# dirname to find data
+train_name: "whisper"
+train_id: "1"
+train_name: "test"
+model_name: "base"
+corpus_name: "jsut_ver1.1"
+d_model: 512  #注意力嵌入
+patch_dim: 256 #detr的嵌入长度
+
+path:
+  download: "./downloads/jsut_ver1.1"
+  raw: "data/1117"
+  preprocessed: "data/processed_1117/"
+  log: "./log"
+  checkpoint: "./checkpoint"  # dir to save model
+  audio_features_dir: "./vision_features"
+
+data:
+  audio_sampling_rate: 16000 #好像没用
+  audio_max_length: 480000
+  lang: en
+  frontend: None  #(raw text), pyopenjtalk_kana (kana)
+  text_max_length: 120
+  train_ratio: 0.9
+  val_ratio: 0.1
+  timestamps: False
+  task: "transcribe"
+  img_type: "detr" #"detr","clip","resnet"
+
+train:
+  batch_size: 32
+  seed: 3407
+  learning_rate: 0.00001
+  weight_decay: 0.01
+  adam_epsilon: 0.00000001
+  warmup_steps: 2
+  num_worker: 2
+  num_train_epochs: 10
+  gradient_accumulation_steps: 1
+#To evaluate the model, the code runs the  function, which takes in the  and the validation  dataset, and performs image-text matching on the retrieval dataset. For this evaluation, the function computes several retrieval metrics, including recall at 1, 5, and 10 for both text-to-image and image-to-text retrieval. These metrics indicate how often the correct image or text was selected in the top 1, 5, or 10 retrieved items. The function returns a dictionary with the computed recall values for both directions of the retrieval task.validate_itm_matchingmodelval_ds
+inference:
+  epoch_index: 3
+  temperature: 1.
+  top_p:
+  task: transcribe
+  patience: 1.
+  beam_size: 5
+
+  
+
+
